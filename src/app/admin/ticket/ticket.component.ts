@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestHandlerService } from 'src/app/services/request-handler.service';
-
+import { TicketObjectModel } from './ticket.model';
 
 @Component({
   selector: 'app-ticket',
@@ -23,7 +23,9 @@ export class TicketComponent implements OnInit {
 
   showCreateNewButton = false;
 
-  searchText:string = "";
+  searchText: string = '';
+
+  ticketObjectModel: TicketObjectModel = new TicketObjectModel();
 
   constructor(private requestHandlerService: RequestHandlerService) {}
 
@@ -50,21 +52,28 @@ export class TicketComponent implements OnInit {
     this.showCreateNewButton = true;
   }
   createTicket() {
-    let body = {
-      cust_name: this.inputCustomerName,
-      cust_age: this.inputCustomerAge,
-      cust_address: this.inputCustomerAddress,
-      problem_desc: this.inputProblemDesc,
-      date: this.inputComplaintDate,
-      problem_status: this.inputProblemStatus,
-    };
-    console.log(body);
-    this.requestHandlerService.postRequest('api/complaint', body).subscribe(
+    // let body = {
+    //   cust_name: this.inputCustomerName,
+    //   cust_age: this.inputCustomerAge,
+    //   cust_address: this.inputCustomerAddress,
+    //   problem_desc: this.inputProblemDesc,
+    //   date: this.inputComplaintDate,
+    //   problem_status: this.inputProblemStatus,
+    // };
+
+    this.ticketObjectModel.cust_name = this.inputCustomerName;
+    this.ticketObjectModel.cust_age = +this.inputCustomerAge;
+    this.ticketObjectModel.cust_address = this.inputCustomerAddress;
+    this.ticketObjectModel.problem_desc = this.inputProblemDesc;
+    this.ticketObjectModel.date = this.inputComplaintDate;
+    this.ticketObjectModel.problem_status = this.inputProblemStatus;
+
+    this.requestHandlerService.postRequest('api/complaint',this.ticketObjectModel).subscribe(
       (resultData: any) => {
         console.log(resultData);
-        this.loadAllTickets();
         this.errorMessages = [];
         this.successMessage = 'New Entry Created Successfully';
+        this.loadAllTickets();
         this.clearTicketForm();
       },
       (errorData: any) => {
@@ -90,16 +99,24 @@ export class TicketComponent implements OnInit {
   }
 
   updateTicket() {
-    let body = {
-      cust_name: this.inputCustomerName,
-      cust_age: this.inputCustomerAge,
-      cust_address: this.inputCustomerAddress,
-      problem_desc: this.inputProblemDesc,
-      date: this.inputComplaintDate,
-      problem_status: this.inputProblemStatus,
-    };
+    // let body = {
+    //   cust_name: this.inputCustomerName,
+    //   cust_age: this.inputCustomerAge,
+    //   cust_address: this.inputCustomerAddress,
+    //   problem_desc: this.inputProblemDesc,
+    //   date: this.inputComplaintDate,
+    //   problem_status: this.inputProblemStatus,
+    // };
+
+    this.ticketObjectModel.cust_name = this.inputCustomerName;
+    this.ticketObjectModel.cust_age = +this.inputCustomerAge;
+    this.ticketObjectModel.cust_address = this.inputCustomerAddress;
+    this.ticketObjectModel.problem_desc = this.inputProblemDesc;
+    this.ticketObjectModel.date = this.inputComplaintDate;
+    this.ticketObjectModel.problem_status = this.inputProblemStatus;
+
     this.requestHandlerService
-      .updateRequest('api/complaint', body, this.inputComplaintId)
+      .updateRequest('api/complaint', this.ticketObjectModel, this.inputComplaintId)
       .subscribe(
         (resultData: any) => {
           console.log(resultData.data);
@@ -130,8 +147,7 @@ export class TicketComponent implements OnInit {
   }
 
   searchPhrase(eventData: any) {
-      this.searchText = eventData.target.value;
-
+    this.searchText = eventData.target.value;
   }
 
   clearTicketForm() {

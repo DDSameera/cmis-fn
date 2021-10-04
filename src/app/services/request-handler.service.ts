@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { encode } from 'js-base64';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TicketObjectModel } from '../admin/ticket/ticket.model';
 import { Ticket } from '../interface/ticket';
 
 @Injectable({
@@ -39,7 +40,8 @@ export class RequestHandlerService {
     });
   }
 
-  postRequest(endPoint: string, body: any):Observable<Ticket> {
+  postRequest(endPoint: string, body:any):Observable<Ticket> {
+    console.log(body);
     return this.http.post<Ticket>(this.ip + ':' + this.port + '/' + endPoint, body, {
       headers: this.setHeaders(),
     });
