@@ -1,0 +1,121 @@
+
+<main>
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Complaints</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Complaints</li>
+    </ol>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" (input)="searchPhrase($event)">
+      </div>
+      <div class="col-md-12">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Customer Age</th>
+              <th scope="col">Customer Address</th>
+              <th scope="col">Problem Description</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ticket of listOfAllTickets | filterTickets : searchText ; let i = index" >
+              <td>{{i + 1}}</td>
+              <td>{{ticket.cust_name}}</td>
+              <td>{{ticket.cust_age}}</td>
+              <td>{{ticket.cust_address}}</td>
+              <td>{{ticket.problem_desc}}</td>
+              <td>{{ticket.date}}</td>
+              <td><span class="badge bg-secondary">{{ticket.problem_status}}</span></td>
+              <td>
+                <div class="btn-group">
+                <button class="btn btn-sm btn-primary" (click)="editTicket(ticket)"  data-bs-toggle="modal" data-bs-target="#ticketModal"><span class="fa fa-edit"></span></button>
+                <button class="btn btn-sm btn-danger" (click)="deleteTicket(ticket)"><span class="fa fa-trash"></span></button>
+
+              </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-sm btn-primary" (click)="viewNewEntryForm()" data-bs-toggle="modal" data-bs-target="#ticketModal"> Add New Entry <span class="fa fa-plus"></span></button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" >Edit Complaint</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+
+                <div *ngIf="successMessage" class="alert alert-success">
+                  {{successMessage}}
+                </div>
+
+                  <div  *ngFor="let em of errorMessages">
+                    <div class="alert alert-danger">
+                        {{em}}
+                    </div>
+                  </div>
+
+
+
+                <form class="row g-3">
+                  <div class="col-md-6">
+                    <label for="inputCustomerName"  class="form-label" >Customer Name</label>
+                    <input type="text" [(ngModel)]="inputCustomerName" [ngModelOptions]="{standalone:true}" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputCustomerAge"  class="form-label">Customer Age</label>
+                    <input type="text" [(ngModel)]="inputCustomerAge" [ngModelOptions]="{standalone:true}" class="form-control">
+                  </div>
+                  <div class="col-12">
+                    <label for="inputCustomerAddress" class="form-label">Customer Address </label>
+                    <textarea  cols="2" rows="5"  [(ngModel)]="inputCustomerAddress" [ngModelOptions]="{standalone:true}" class="form-control"></textarea>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="inputProblemDesc" class="form-label">Problem Desc </label>
+                    <textarea cols="2" rows="5"  [(ngModel)]="inputProblemDesc" [ngModelOptions]="{standalone:true}"  class="form-control"></textarea>
+                  </div>
+
+                  <div class="col-6">
+                    <label for="inputComplaintDate"  class="form-label">Date </label>
+                    <input type="text" [(ngModel)]="inputComplaintDate" [ngModelOptions]="{standalone:true}" class="form-control">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="inputComplaintStatus" class="form-label">Status </label>
+                    <div class="form-check">
+
+                      <input  class="form-check-input" type="radio" [(ngModel)]="inputProblemStatus" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="inputProblemStatus==='pending' ? true : ''" value="pending" >
+                      <label class="form-check-label"> Pending  </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" [(ngModel)]="inputProblemStatus" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="inputProblemStatus==='resolved' ? true : ''" value="resolved" >
+                      <label class="form-check-label"> Resolved  </label>
+
+                    </div>
+                  </div>
+                 </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button *ngIf="!showCreateNewButton" type="button" class="btn btn-primary" (click)="updateTicket()"  >Save changes</button>
+                <button *ngIf="showCreateNewButton" type="button" class="btn btn-primary" (click)="createTicket()">Add New Entry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
