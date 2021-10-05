@@ -13,13 +13,15 @@ export class TicketComponent implements OnInit {
   successMessage: string = '';
   errorMessages: any[] = [];
 
-  inputComplaintId: string = '';
-  inputCustomerName: string = '';
-  inputCustomerAge: string = '';
-  inputCustomerAddress: string = '';
-  inputProblemDesc: string = '';
-  inputComplaintDate: string = '';
-  inputProblemStatus: string = '';
+  ticketForm = {
+    inputComplaintId: '',
+    inputCustomerName: '',
+    inputCustomerAge: '',
+    inputCustomerAddress: '',
+    inputProblemDesc: '',
+    inputComplaintDate: '',
+    inputProblemStatus: '',
+  };
 
   showCreateNewButton = false;
 
@@ -61,27 +63,29 @@ export class TicketComponent implements OnInit {
     //   problem_status: this.inputProblemStatus,
     // };
 
-    this.ticketObjectModel.cust_name = this.inputCustomerName;
-    this.ticketObjectModel.cust_age = +this.inputCustomerAge;
-    this.ticketObjectModel.cust_address = this.inputCustomerAddress;
-    this.ticketObjectModel.problem_desc = this.inputProblemDesc;
-    this.ticketObjectModel.date = this.inputComplaintDate;
-    this.ticketObjectModel.problem_status = this.inputProblemStatus;
+    this.ticketObjectModel.cust_name = this.ticketForm.inputCustomerName;
+    this.ticketObjectModel.cust_age = +this.ticketForm.inputCustomerAge;
+    this.ticketObjectModel.cust_address = this.ticketForm.inputCustomerAddress;
+    this.ticketObjectModel.problem_desc = this.ticketForm.inputProblemDesc;
+    this.ticketObjectModel.date = this.ticketForm.inputComplaintDate;
+    this.ticketObjectModel.problem_status = this.ticketForm.inputProblemStatus;
 
-    this.requestHandlerService.postRequest('api/complaint',this.ticketObjectModel).subscribe(
-      (resultData: any) => {
-        console.log(resultData);
-        this.errorMessages = [];
-        this.successMessage = 'New Entry Created Successfully';
-        this.loadAllTickets();
-        this.clearTicketForm();
-      },
-      (errorData: any) => {
-        console.log(errorData);
-        this.successMessage = '';
-        this.errorMessages = errorData.error.errors;
-      }
-    );
+    this.requestHandlerService
+      .postRequest('api/complaint', this.ticketObjectModel)
+      .subscribe(
+        (resultData: any) => {
+          console.log(resultData);
+          this.errorMessages = [];
+          this.successMessage = 'New Entry Created Successfully';
+          this.loadAllTickets();
+          this.clearTicketForm();
+        },
+        (errorData: any) => {
+          console.log(errorData);
+          this.successMessage = '';
+          this.errorMessages = errorData.error.errors;
+        }
+      );
   }
 
   editTicket(item: any) {
@@ -89,13 +93,13 @@ export class TicketComponent implements OnInit {
     this.errorMessages = [];
     this.showCreateNewButton = false;
 
-    this.inputComplaintId = item.id;
-    this.inputCustomerName = item.cust_name;
-    this.inputCustomerAge = item.cust_age;
-    this.inputCustomerAddress = item.cust_address;
-    this.inputProblemDesc = item.problem_desc;
-    this.inputComplaintDate = item.date;
-    this.inputProblemStatus = item.problem_status;
+    this.ticketForm.inputComplaintId = item.id;
+    this.ticketForm.inputCustomerName = item.cust_name;
+    this.ticketForm.inputCustomerAge = item.cust_age;
+    this.ticketForm.inputCustomerAddress = item.cust_address;
+    this.ticketForm.inputProblemDesc = item.problem_desc;
+    this.ticketForm.inputComplaintDate = item.date;
+    this.ticketForm.inputProblemStatus = item.problem_status;
   }
 
   updateTicket() {
@@ -108,15 +112,19 @@ export class TicketComponent implements OnInit {
     //   problem_status: this.inputProblemStatus,
     // };
 
-    this.ticketObjectModel.cust_name = this.inputCustomerName;
-    this.ticketObjectModel.cust_age = +this.inputCustomerAge;
-    this.ticketObjectModel.cust_address = this.inputCustomerAddress;
-    this.ticketObjectModel.problem_desc = this.inputProblemDesc;
-    this.ticketObjectModel.date = this.inputComplaintDate;
-    this.ticketObjectModel.problem_status = this.inputProblemStatus;
+    this.ticketObjectModel.cust_name = this.ticketForm.inputCustomerName;
+    this.ticketObjectModel.cust_age = +this.ticketForm.inputCustomerAge;
+    this.ticketObjectModel.cust_address = this.ticketForm.inputCustomerAddress;
+    this.ticketObjectModel.problem_desc = this.ticketForm.inputProblemDesc;
+    this.ticketObjectModel.date = this.ticketForm.inputComplaintDate;
+    this.ticketObjectModel.problem_status = this.ticketForm.inputProblemStatus;
 
     this.requestHandlerService
-      .updateRequest('api/complaint', this.ticketObjectModel, this.inputComplaintId)
+      .updateRequest(
+        'api/complaint',
+        this.ticketObjectModel,
+        this.ticketForm.inputComplaintId
+      )
       .subscribe(
         (resultData: any) => {
           console.log(resultData.data);
@@ -151,12 +159,12 @@ export class TicketComponent implements OnInit {
   }
 
   clearTicketForm() {
-    this.inputComplaintId = '';
-    this.inputCustomerName = '';
-    this.inputCustomerAge = '';
-    this.inputCustomerAddress = '';
-    this.inputProblemDesc = '';
-    this.inputComplaintDate = '';
-    this.inputProblemStatus = '';
+    this.ticketForm.inputComplaintId = '';
+    this.ticketForm.inputCustomerName = '';
+    this.ticketForm.inputCustomerAge = '';
+    this.ticketForm.inputCustomerAddress = '';
+    this.ticketForm.inputProblemDesc = '';
+    this.ticketForm.inputComplaintDate = '';
+    this.ticketForm.inputProblemStatus = '';
   }
 }
