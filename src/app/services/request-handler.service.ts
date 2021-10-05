@@ -34,19 +34,19 @@ export class RequestHandlerService {
     return httpOptions;
   }
 
-  getRequest(endPoint: string):Observable<Ticket> {
+  getRequest(endPoint: string):Observable<any> {
     return this.http.get<Ticket>(this.ip + ':' + this.port + '/' + endPoint, {
       headers: this.setHeaders(),
     });
   }
 
-  postRequest(endPoint: string, body:any):Observable<Ticket> {
+  postRequest(endPoint: string, body:any):Observable<any> {
     console.log(body);
     return this.http.post<Ticket>(this.ip + ':' + this.port + '/' + endPoint, body, {
       headers: this.setHeaders(),
     });
   }
-  updateRequest(endPoint: string, body: any, id: string):Observable<Ticket> {
+  updateRequest(endPoint: string, body: any, id: string):Observable<any> {
     return this.http.patch<Ticket>(this.ip +':' + this.port + '/' + endPoint  +'/' +id , body,{
       headers: this.setHeaders(),
     });
