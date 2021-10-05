@@ -68,39 +68,39 @@
 
 
                 <form class="row g-3">
-
                   <div class="col-md-6">
                     <label for="inputCustomerName"  class="form-label" >Customer Name</label>
-                    <input type="text" [(ngModel)]="ticketForm.inputCustomerName" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" [(ngModel)]="ticketObjectModel.cust_name" [ngModelOptions]="{standalone:true}" class="form-control">
                   </div>
+
                   <div class="col-md-6">
                     <label for="inputCustomerAge"  class="form-label">Customer Age</label>
-                    <input type="text" [(ngModel)]="ticketForm.inputCustomerAge" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" [(ngModel)]="ticketObjectModel.cust_age" [ngModelOptions]="{standalone:true}" class="form-control">
                   </div>
                   <div class="col-12">
                     <label for="inputCustomerAddress" class="form-label">Customer Address </label>
-                    <textarea  cols="2" rows="5"  [(ngModel)]="ticketForm.inputCustomerAddress" [ngModelOptions]="{standalone:true}" class="form-control"></textarea>
+                    <textarea  cols="2" rows="5"  [(ngModel)]="ticketObjectModel.cust_address" [ngModelOptions]="{standalone:true}" class="form-control"></textarea>
                   </div>
 
                   <div class="col-12">
                     <label for="inputProblemDesc" class="form-label">Problem Desc </label>
-                    <textarea cols="2" rows="5"  [(ngModel)]="ticketForm.inputProblemDesc" [ngModelOptions]="{standalone:true}"  class="form-control"></textarea>
+                    <textarea cols="2" rows="5"  [(ngModel)]="ticketObjectModel.problem_desc" [ngModelOptions]="{standalone:true}"  class="form-control"></textarea>
                   </div>
 
                   <div class="col-6">
                     <label for="inputComplaintDate"  class="form-label">Date </label>
-                    <input type="text" [(ngModel)]="ticketForm.inputComplaintDate" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" [(ngModel)]="ticketObjectModel.date" [ngModelOptions]="{standalone:true}" class="form-control">
                   </div>
 
                   <div class="col-md-6">
                     <label for="inputComplaintStatus" class="form-label">Status </label>
                     <div class="form-check">
 
-                      <input  class="form-check-input" type="radio" [(ngModel)]="ticketForm.inputProblemStatus" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketForm.inputProblemStatus==='pending' ? true : ''" value="pending" >
+                      <input  class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='pending' ? true : ''" value="pending" >
                       <label class="form-check-label"> Pending  </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" [(ngModel)]="ticketForm.inputProblemStatus" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketForm.inputProblemStatus==='resolved' ? true : ''" value="resolved" >
+                      <input class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='resolved' ? true : ''" value="resolved" >
                       <label class="form-check-label"> Resolved  </label>
 
                     </div>

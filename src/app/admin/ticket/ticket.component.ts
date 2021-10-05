@@ -13,21 +13,21 @@ export class TicketComponent implements OnInit {
   successMessage: string = '';
   errorMessages: any[] = [];
 
-  ticketForm = {
-    inputComplaintId: '',
-    inputCustomerName: '',
-    inputCustomerAge: '',
-    inputCustomerAddress: '',
-    inputProblemDesc: '',
-    inputComplaintDate: '',
-    inputProblemStatus: '',
+  public ticketObjectModel : TicketObjectModel = {
+    complaintId: '' ,
+    cust_name:  '',
+    cust_age: 0,
+    cust_address:'',
+    problem_desc: '',
+    date:  '',
+    problem_status: '',
   };
+
 
   showCreateNewButton = false;
 
   searchText: string = '';
 
-  ticketObjectModel: TicketObjectModel = new TicketObjectModel();
 
   constructor(private requestHandlerService: RequestHandlerService) {}
 
@@ -54,21 +54,7 @@ export class TicketComponent implements OnInit {
     this.showCreateNewButton = true;
   }
   createTicket() {
-    // let body = {
-    //   cust_name: this.inputCustomerName,
-    //   cust_age: this.inputCustomerAge,
-    //   cust_address: this.inputCustomerAddress,
-    //   problem_desc: this.inputProblemDesc,
-    //   date: this.inputComplaintDate,
-    //   problem_status: this.inputProblemStatus,
-    // };
 
-    this.ticketObjectModel.cust_name = this.ticketForm.inputCustomerName;
-    this.ticketObjectModel.cust_age = +this.ticketForm.inputCustomerAge;
-    this.ticketObjectModel.cust_address = this.ticketForm.inputCustomerAddress;
-    this.ticketObjectModel.problem_desc = this.ticketForm.inputProblemDesc;
-    this.ticketObjectModel.date = this.ticketForm.inputComplaintDate;
-    this.ticketObjectModel.problem_status = this.ticketForm.inputProblemStatus;
 
     this.requestHandlerService
       .postRequest('api/complaint', this.ticketObjectModel)
@@ -93,37 +79,24 @@ export class TicketComponent implements OnInit {
     this.errorMessages = [];
     this.showCreateNewButton = false;
 
-    this.ticketForm.inputComplaintId = item.id;
-    this.ticketForm.inputCustomerName = item.cust_name;
-    this.ticketForm.inputCustomerAge = item.cust_age;
-    this.ticketForm.inputCustomerAddress = item.cust_address;
-    this.ticketForm.inputProblemDesc = item.problem_desc;
-    this.ticketForm.inputComplaintDate = item.date;
-    this.ticketForm.inputProblemStatus = item.problem_status;
+
+    this.ticketObjectModel.complaintId = item.id;
+    this.ticketObjectModel.cust_name = item.cust_name;
+    this.ticketObjectModel.cust_age = item.cust_age;
+    this.ticketObjectModel.cust_address = item.cust_address;
+    this.ticketObjectModel.problem_desc= item.problem_desc;
+    this.ticketObjectModel.date = item.date;
+    this.ticketObjectModel.problem_status = item.problem_status;
   }
 
   updateTicket() {
-    // let body = {
-    //   cust_name: this.inputCustomerName,
-    //   cust_age: this.inputCustomerAge,
-    //   cust_address: this.inputCustomerAddress,
-    //   problem_desc: this.inputProblemDesc,
-    //   date: this.inputComplaintDate,
-    //   problem_status: this.inputProblemStatus,
-    // };
 
-    this.ticketObjectModel.cust_name = this.ticketForm.inputCustomerName;
-    this.ticketObjectModel.cust_age = +this.ticketForm.inputCustomerAge;
-    this.ticketObjectModel.cust_address = this.ticketForm.inputCustomerAddress;
-    this.ticketObjectModel.problem_desc = this.ticketForm.inputProblemDesc;
-    this.ticketObjectModel.date = this.ticketForm.inputComplaintDate;
-    this.ticketObjectModel.problem_status = this.ticketForm.inputProblemStatus;
 
     this.requestHandlerService
       .updateRequest(
         'api/complaint',
         this.ticketObjectModel,
-        this.ticketForm.inputComplaintId
+        this.ticketObjectModel.complaintId
       )
       .subscribe(
         (resultData: any) => {
@@ -159,12 +132,12 @@ export class TicketComponent implements OnInit {
   }
 
   clearTicketForm() {
-    this.ticketForm.inputComplaintId = '';
-    this.ticketForm.inputCustomerName = '';
-    this.ticketForm.inputCustomerAge = '';
-    this.ticketForm.inputCustomerAddress = '';
-    this.ticketForm.inputProblemDesc = '';
-    this.ticketForm.inputComplaintDate = '';
-    this.ticketForm.inputProblemStatus = '';
+    this.ticketObjectModel.complaintId = '';
+    this.ticketObjectModel.cust_name = '';
+    this.ticketObjectModel.cust_age = 0;
+    this.ticketObjectModel.cust_address = '';
+    this.ticketObjectModel.problem_desc= '';
+    this.ticketObjectModel.date = '';
+    this.ticketObjectModel.problem_status = '';
   }
 }
