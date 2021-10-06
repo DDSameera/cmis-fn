@@ -51,7 +51,8 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" >Edit Complaint</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" (click)="closeModal(myForm)" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+
               </div>
               <div class="modal-body">
 
@@ -66,16 +67,16 @@
                   </div>
 
 
-                <form class="row g-3">
+                <form #myForm="ngForm" class="row g-3">
                   <div class="col-md-6">
                     <label for="inputCustomerName"  class="form-label" >Customer Name</label>
-                    <input type="text" required #cust_name="ngModel" [(ngModel)]="ticketObjectModel.cust_name" [ngModelOptions]="{standalone:true}" class="form-control" required>
-               <!-- <span *ngIf="cust_name.invalid && cust_name.touched" class="error">customer name is required</span> -->
+                    <input type="text" required #cust_name="ngModel" [(ngModel)]="ticketObjectModel.cust_name" name="cust_name" class="form-control" required>
+                     <span *ngIf="cust_name.invalid && cust_name.touched" class="error">customer name is required</span>
                   </div>
 
                   <div class="col-md-6">
                     <label for="inputCustomerAge"  class="form-label">Customer Age</label>
-                    <input type="text" #numVal="ngModel" [(ngModel)]="ticketObjectModel.cust_age" [ngModelOptions]="{standalone:true}" class="form-control"  pswLengthValidator required>
+                    <input type="text" #numVal="ngModel" [(ngModel)]="ticketObjectModel.cust_age" name="cust_age" class="form-control"  pswLengthValidator required>
 
 
                     <div *ngIf="!numVal.valid && (numVal.dirty ||numVal.touched)">
@@ -86,28 +87,28 @@
                   </div>
                   <div class="col-12">
                     <label for="inputCustomerAddress" class="form-label">Customer Address </label>
-                    <textarea  cols="2" rows="5"  [(ngModel)]="ticketObjectModel.cust_address" [ngModelOptions]="{standalone:true}" class="form-control"></textarea>
+                    <textarea  cols="2" rows="5"  [(ngModel)]="ticketObjectModel.cust_address" name="cust_address" class="form-control"></textarea>
                   </div>
 
                   <div class="col-12">
                     <label for="inputProblemDesc" class="form-label">Problem Desc </label>
-                    <textarea cols="2" rows="5"  [(ngModel)]="ticketObjectModel.problem_desc" [ngModelOptions]="{standalone:true}"  class="form-control"></textarea>
+                    <textarea cols="2" rows="5"  [(ngModel)]="ticketObjectModel.problem_desc" name="problem_desc"  class="form-control"></textarea>
                   </div>
 
                   <div class="col-6">
                     <label for="inputComplaintDate"  class="form-label">Date </label>
-                    <input type="text" [(ngModel)]="ticketObjectModel.date" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" [(ngModel)]="ticketObjectModel.date" name="date" class="form-control">
                   </div>
 
                   <div class="col-md-6">
                     <label for="inputComplaintStatus" class="form-label">Status </label>
                     <div class="form-check">
 
-                      <input  class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='pending' ? true : ''" value="pending" >
+                      <input  class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status"  name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='pending' ? true : ''" value="pending" >
                       <label class="form-check-label"> Pending  </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status" [ngModelOptions]="{standalone:true}" name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='resolved' ? true : ''" value="resolved" >
+                      <input class="form-check-input" type="radio" [(ngModel)]="ticketObjectModel.problem_status" name="inputComplaintStatus" [checked]="ticketObjectModel.problem_status==='resolved' ? true : ''" value="resolved" >
                       <label class="form-check-label"> Resolved  </label>
 
                     </div>
@@ -117,6 +118,7 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                 <button *ngIf="!showCreateNewButton" type="button" class="btn btn-primary" (click)="updateTicket()">Save changes</button>
                 <button *ngIf="showCreateNewButton" type="button" class="btn btn-primary" (click)="createTicket()">Add New Entry</button>
               </div>

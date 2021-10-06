@@ -14,6 +14,8 @@ export class TicketComponent implements OnInit {
   successMessage: string = '';
   errorMessages: any[] = [];
 
+  showCustomValidationErrors = false;
+
   public ticketObjectModel: TicketObjectModel = {
     complaintId: '',
     cust_name: '',
@@ -27,8 +29,7 @@ export class TicketComponent implements OnInit {
   showCreateNewButton = false;
 
   searchText: string = '';
-
-  @ViewChild('myForm') ticketForm!: NgForm;
+  @ViewChild('editFrom') myForm!: NgForm;
   constructor(private requestHandlerService: RequestHandlerService) {}
 
   ngOnInit(): void {
@@ -48,10 +49,19 @@ export class TicketComponent implements OnInit {
   }
 
   viewNewEntryForm() {
+    this.showCustomValidationErrors = true;
+    console.log('open Modal', this.showCustomValidationErrors);
+
     this.successMessage = '';
     this.errorMessages = [];
     this.clearTicketForm();
     this.showCreateNewButton = true;
+  }
+
+  closeModal(myForm:NgForm) {
+    myForm.resetForm({});
+    this.showCustomValidationErrors = false;
+    console.log('close Modal', this.showCustomValidationErrors);
   }
   createTicket() {
     if (this.passValidate(this.ticketObjectModel)) {
@@ -78,16 +88,15 @@ export class TicketComponent implements OnInit {
     let isValidate = false;
     let validationErrors = [];
     for (let [key, value] of Object.entries(ticketObjectModel)) {
-      isValidate = (value == '' ? false : true);
+      isValidate = value == '' ? false : true;
 
-      if(key=="cust_name" && value == '' ){
+      if (key == 'cust_name' && value == '') {
         validationErrors.push('Please enter Customer Name');
-      }else if(key=="cust_age" && value == 0 ){
+      } else if (key == 'cust_age' && value == 0) {
         validationErrors.push('Please enter Valid Age');
-      }else if(key=="cust_address" && value== ''){
+      } else if (key == 'cust_address' && value == '') {
         validationErrors.push('Please enter Customer Address');
       }
-
     }
     this.errorMessages = validationErrors;
     return isValidate;
