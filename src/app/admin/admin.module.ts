@@ -9,7 +9,8 @@ import { NavComponent } from './layouts/nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { FormsModule } from '@angular/forms';
-import { FilterTicketsPipe } from '../pipes/filter-tickets.pipe';
+import { FilterTicketsPipe } from '../_pipes/filter-tickets.pipe';
+import { PswLengthValidatorDirective } from '../_directives/pswlength.validator';
 
 
 
@@ -24,7 +25,8 @@ import { FilterTicketsPipe } from '../pipes/filter-tickets.pipe';
     NavComponent,
     HomeComponent,
     TicketComponent,
-    FilterTicketsPipe
+    FilterTicketsPipe,
+    PswLengthValidatorDirective
 
 
   ],

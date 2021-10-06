@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RequestHandlerService } from 'src/app/services/request-handler.service';
+import { RequestHandlerService } from 'src/app/_services/request-handler.service';
 import { environment } from 'src/environments/environment';
 
 @Component({

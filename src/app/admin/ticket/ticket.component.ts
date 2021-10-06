@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RequestHandlerService } from 'src/app/services/request-handler.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { RequestHandlerService } from 'src/app/_services/request-handler.service';
 import { TicketObjectModel } from './ticket.model';
 
 @Component({
@@ -13,22 +14,21 @@ export class TicketComponent implements OnInit {
   successMessage: string = '';
   errorMessages: any[] = [];
 
-  public ticketObjectModel : TicketObjectModel = {
-    complaintId: '' ,
-    cust_name:  '',
+  public ticketObjectModel: TicketObjectModel = {
+    complaintId: '',
+    cust_name: '',
     cust_age: 0,
-    cust_address:'',
+    cust_address: '',
     problem_desc: '',
-    date:  '',
+    date: '',
     problem_status: '',
   };
-
 
   showCreateNewButton = false;
 
   searchText: string = '';
 
-
+  @ViewChild('myForm') ticketForm!: NgForm;
   constructor(private requestHandlerService: RequestHandlerService) {}
 
   ngOnInit(): void {
@@ -54,24 +54,43 @@ export class TicketComponent implements OnInit {
     this.showCreateNewButton = true;
   }
   createTicket() {
+    if (this.passValidate(this.ticketObjectModel)) {
+      this.requestHandlerService
+        .postRequest('api/complaint', this.ticketObjectModel)
+        .subscribe(
+          (resultData: any) => {
+            console.log(resultData);
+            this.errorMessages = [];
+            this.successMessage = 'New Entry Created Successfully';
+            this.loadAllTickets();
+            this.clearTicketForm();
+          },
+          (errorData: any) => {
+            console.log(errorData);
+            this.successMessage = '';
+            this.errorMessages = errorData.error.errors;
+          }
+        );
+    }
+  }
 
+  passValidate(ticketObjectModel: TicketObjectModel): boolean {
+    let isValidate = false;
+    let validationErrors = [];
+    for (let [key, value] of Object.entries(ticketObjectModel)) {
+      isValidate = (value == '' ? false : true);
 
-    this.requestHandlerService
-      .postRequest('api/complaint', this.ticketObjectModel)
-      .subscribe(
-        (resultData: any) => {
-          console.log(resultData);
-          this.errorMessages = [];
-          this.successMessage = 'New Entry Created Successfully';
-          this.loadAllTickets();
-          this.clearTicketForm();
-        },
-        (errorData: any) => {
-          console.log(errorData);
-          this.successMessage = '';
-          this.errorMessages = errorData.error.errors;
-        }
-      );
+      if(key=="cust_name" && value == '' ){
+        validationErrors.push('Please enter Customer Name');
+      }else if(key=="cust_age" && value == 0 ){
+        validationErrors.push('Please enter Valid Age');
+      }else if(key=="cust_address" && value== ''){
+        validationErrors.push('Please enter Customer Address');
+      }
+
+    }
+    this.errorMessages = validationErrors;
+    return isValidate;
   }
 
   editTicket(item: any) {
@@ -79,19 +98,16 @@ export class TicketComponent implements OnInit {
     this.errorMessages = [];
     this.showCreateNewButton = false;
 
-
     this.ticketObjectModel.complaintId = item.id;
     this.ticketObjectModel.cust_name = item.cust_name;
     this.ticketObjectModel.cust_age = item.cust_age;
     this.ticketObjectModel.cust_address = item.cust_address;
-    this.ticketObjectModel.problem_desc= item.problem_desc;
+    this.ticketObjectModel.problem_desc = item.problem_desc;
     this.ticketObjectModel.date = item.date;
     this.ticketObjectModel.problem_status = item.problem_status;
   }
 
   updateTicket() {
-
-
     this.requestHandlerService
       .updateRequest(
         'api/complaint',
@@ -136,7 +152,7 @@ export class TicketComponent implements OnInit {
     this.ticketObjectModel.cust_name = '';
     this.ticketObjectModel.cust_age = 0;
     this.ticketObjectModel.cust_address = '';
-    this.ticketObjectModel.problem_desc= '';
+    this.ticketObjectModel.problem_desc = '';
     this.ticketObjectModel.date = '';
     this.ticketObjectModel.problem_status = '';
   }

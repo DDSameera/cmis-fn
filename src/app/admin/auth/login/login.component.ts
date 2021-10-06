@@ -1,12 +1,12 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { RequestHandlerService } from 'src/app/services/request-handler.service';
+import { RequestHandlerService } from 'src/app/_services/request-handler.service';
 import { encode } from 'js-base64';
 import Swal from 'sweetalert2';
-import { LocalstorageDataService } from 'src/app/services/localstorage-data.service';
+import { LocalstorageDataService } from 'src/app/_services/localstorage-data.service';
 import { Router } from '@angular/router';
-import { CacheDataService } from 'src/app/services/cache-data.service';
-import { AuthGuardService } from 'src/app/services/auth-guard.service';
+import { CacheDataService } from 'src/app/_services/cache-data.service';
+import { AuthGuardService } from 'src/app/_services/auth-guard.service';
 
 @Component({
   selector: 'app-login',

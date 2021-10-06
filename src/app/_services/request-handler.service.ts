@@ -4,7 +4,7 @@ import { encode } from 'js-base64';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TicketObjectModel } from '../admin/ticket/ticket.model';
-import { Ticket } from '../interface/ticket';
+import { Ticket } from '../_interface/ticket';
 
 @Injectable({
   providedIn: 'root',

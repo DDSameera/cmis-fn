@@ -66,16 +66,23 @@
                   </div>
 
 
-
                 <form class="row g-3">
                   <div class="col-md-6">
                     <label for="inputCustomerName"  class="form-label" >Customer Name</label>
-                    <input type="text" [(ngModel)]="ticketObjectModel.cust_name" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" required #cust_name="ngModel" [(ngModel)]="ticketObjectModel.cust_name" [ngModelOptions]="{standalone:true}" class="form-control" required>
+               <!-- <span *ngIf="cust_name.invalid && cust_name.touched" class="error">customer name is required</span> -->
                   </div>
 
                   <div class="col-md-6">
                     <label for="inputCustomerAge"  class="form-label">Customer Age</label>
-                    <input type="text" [(ngModel)]="ticketObjectModel.cust_age" [ngModelOptions]="{standalone:true}" class="form-control">
+                    <input type="text" #numVal="ngModel" [(ngModel)]="ticketObjectModel.cust_age" [ngModelOptions]="{standalone:true}" class="form-control"  pswLengthValidator required>
+
+
+                    <div *ngIf="!numVal.valid && (numVal.dirty ||numVal.touched)">
+                      <div class="error" *ngIf="numVal.errors?.gte">
+                        The number should be greater than {{numVal.errors?.requiredValue}}
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12">
                     <label for="inputCustomerAddress" class="form-label">Customer Address </label>
@@ -110,7 +117,7 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button *ngIf="!showCreateNewButton" type="button" class="btn btn-primary" (click)="updateTicket()"  >Save changes</button>
+                <button *ngIf="!showCreateNewButton" type="button" class="btn btn-primary" (click)="updateTicket()">Save changes</button>
                 <button *ngIf="showCreateNewButton" type="button" class="btn btn-primary" (click)="createTicket()">Add New Entry</button>
               </div>
             </div>
