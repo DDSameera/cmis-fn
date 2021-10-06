@@ -29,7 +29,7 @@ export class TicketComponent implements OnInit {
   showCreateNewButton = false;
 
   searchText: string = '';
-  @ViewChild('editFrom') myForm!: NgForm;
+
   constructor(private requestHandlerService: RequestHandlerService) {}
 
   ngOnInit(): void {
